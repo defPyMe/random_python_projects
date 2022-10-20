@@ -1,0 +1,701 @@
+
+'code to send info to the clipboard through windows Api
+
+Option Explicit
+
+
+
+
+Public olApp As Outlook.Application
+Public olEmail As Outlook.MailItem
+Public mail_DHL As String, mail_DDP As String, mail_DISCR As String
+Public mail_GEODIS As String, mail_SDOGANAM As String
+Public mail_GEODIS_PU As String, mail_DOCS_OK As String
+Public mail_DOCS_OK_REDUX As String, mail_DOCS_OK_REDUX_EXTR As String, mail_PBACKLOG_REMINDER As String
+Public mail_DISCR_REMINDER As String, mail_PBACKLOG_EXCS As String
+Public mail_NAV_NOT As String
+
+Public mail_GEODIS_obj As String
+Public mail_GEODIS_PU_obj As String
+
+Public num_unit As String, num_cart As String
+Public PO_num As String, auth_code As String
+Public design As String, dep As String
+Public b As String, valor_merce As String, a As String, bb As String
+Public within As String, outside As String
+Public mail_DISCR_obj As String
+Public opt_flag As Boolean
+Public icon As String
+Public flag As Boolean
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+Public Sub assign()
+
+PO_num = ActiveCell.Value
+auth_code = ActiveCell.Offset(0, 15).Value
+num_unit = ActiveCell.Offset(0, 6).Value
+num_cart = ActiveCell.Offset(0, 8).Value
+design = ActiveCell.Offset(0, -2).Value
+dep = ActiveCell.Offset(0, 1).Value
+valor_merce = CStr(ActiveCell.Offset(0, 11).Value) + "  " + CStr(ActiveCell.Offset(0, 12).Value)
+mail_DISCR_obj = "INTP" & " - " & "PO " & PO_num & " - " & design & " - " & dep & " - "
+
+
+End Sub
+
+
+
+Public Sub email_contents()
+
+
+
+'Set olApp = New Outlook.Application
+'Set olEmail = olApp.CreateItem(olMailItem)
+
+'cretaing the different formats according to the different cases
+mail_DHL = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Hi All,</p>" & _
+    "This shipment has been authorised and your Authorisation Code is <b>" & auth_code & "</b>" & _
+    "<p></p>" & _
+    "<p></p>" & _
+    "Please make sure to mark each box with this PO number <b>" & PO_num & "</b>" & "and this code <b>" & auth_code & "</b>" & _
+    "<p>to avoid any troubles and/or delay and to enclose on the FIRST parcel of this shipment all invoices and documentation required.</p>" & _
+    "<p><font color = ""red""><u>I remind you that each PO must be packed separately and correctly marked.</font></u></p>" & _
+    "Attached you can find the labels and pick-up receipt; <b>" & z & "</b>" & _
+    "<p><b><u>Please be aware that DHL could postpone this date due to their technical / operational reasons.</u></b></p>" & _
+    "<p><b>I remind you that DHL doesn't accept pallets, please get loose boxes ready for collection. </b></p>" & _
+    "<p><b>To ensure you are paid on time please email a copy of the invoice to goodsinvoice_TON@ynap.com </b></p>" & _
+    "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+
+mail_DDP = "<html><head><style>.tab {display : inline-block; width: 40px;}table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Hi All,</p>" & _
+    "This shipment has been authorised and your Authorisation Code is <b>" & auth_code & "</b>" & _
+    "<p></p>" & _
+    "<p></p>" & _
+    "Please make sure to mark each box with this PO number <b>" & PO_num & "</b>" & "and this code <b>" & auth_code & "</b>" & _
+    "<p>troubles and/or delay and to enclose on the FIRST parcel of this shipment all invoices and documentation required.</p>" & _
+    "<p><font color = ""red""><u>I remind you that each PO must be packed separately and correctly marked.</font></u></p>" & _
+    "<p>Since the incoterm is <mark>" & "DDP" & "</mark>, please arrange the shipment and provide the below details:</p>" & _
+    "<ul><li><span style=""display:inline-block; width: 30000px ;""> Carrier name</span> </li>" & _
+    "<li>        Number of boxes / Publicensions and gross weight for each order <fotnt color = ""red"">" & "(if the shipment is over 2CBM our warehouse cannot accept loose cartons)." & "</font></li>" & _
+    "<li>         Estimated arrival date <font color = ""red"">" & "as soon as possible in order to book our warehouse for you. </font></style></li></ul>" & _
+    "<p><b>To ensure you are paid on time please email a copy of the invoice to goodsinvoice_TON@ynap.com </b>" & _
+    "<p>Thanks, and best regards.</p>" & _
+    "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+
+
+            
+    '<p><table><tr><th>ddd</th><th>ddd</th><th>ddd</th>/tr></table></p></body></html>" & "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>
+
+mail_GEODIS = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Hi All,</p>" & _
+    "This shipment has been authorised and your Authorisation Code is <b>" & auth_code & "</b>" & _
+    "<p></p>" & _
+    "<p></p>" & _
+    "Please make sure to mark each box with this PO number <b>" & PO_num & "</b>" & "and this code <b>" & auth_code & "</b>" & _
+    "<p>to avoid any troubles and/or delay and to enclose on the FIRST parcel of this shipment all invoices and documentation required.</p>" & _
+    "<p><font color = ""red""><u>I remind you that each PO must be packed separately and correctly marked.</font></u></p>" & _
+    "<p>We have given the task to <b><font color = ""blue"">Geodis FF Italia spa/Geodis</font></b>, they will be in touch with you to arrange the pickup. </p>" & _
+    "<p><b>To ensure you are paid on time please email a copy of the invoice to goodsinvoice_TON@ynap.com </b></p>" & _
+    "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+'removing blank spaces with inline elements
+
+mail_SDOGANAM = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Buongiorno a tutti,</p>" & _
+                "<p>Prego sdoganare la merce proveniente da <b><font color = ""red"">" & p & "</b></font>; la spedizione si compone di:</p>" & _
+                "<ul><b><font color= ""red""><li>" & f & " unità</li><li>" & a & "cartoni</li></b></font></ul>" & _
+                "Il valore totale netto della merce è pari a" & f & _
+                "<p>In allegato il documento che abbiamo ricevuto dal fornitore contenente HS code e COO.</p>" & _
+                "<p>Trattasi di spedizione EXW con addebito oneri doganali a:</p><b>" & _
+                " <p style = ""margin : 0;"">YOOX NET-A-PORTER GROUP</p>" & _
+                "<p style = ""margin : 0;"">Via Morimondo 17</p>" & _
+                "<p style = ""margin : 0;"">20143 - Milano</p>" & _
+                "<p style = ""margin : 0;"">P.IVA e C.F.: 02050461207</p>" & _
+                "</b></p><p>Attendo riscontro e rilascio della merce in oggetto.</p>" & _
+                "<p>grazie e buon lavoro</p>" & _
+                "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+mail_GEODIS_PU = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Buongiorno Morena , </p>" & _
+              "<p>Ti scrivo per una richiesta di ritiro per The Outnet:</p>" & _
+              "<p><table style = ""width: 30%""><tr><th>collection address</th><th ></th></tr>" & _
+              "<tr height = ""28""><td> </td><td>" & "</td></tr>" & _
+              "<tr style=""text-align:center""><th><b>Contact Full Name</b></th><th></th></tr>" & _
+              "<tr style=""text-align:center""><td><b>Hours</b></td><td> OPENING TIME: 8,00-12,00 - 13,00-17,00</td></tr></table></p>" & _
+              "<br>" & _
+              "<p><table style = ""width: 30%""><tr><th style = ""width: 31%"">SHIP TO</th><th></th></tr><tr height = ""28""><td> </td><td>" & f & "</td></tr></table></p>" & _
+              "<br>" & _
+              "<p><table style = ""width: 30%"" ><tr><th>PO Number</th><th>" & PO_num & "</th></tr><tr style=""text-align:center""><td height = ""28""> </td><td>" & f & "</td></tr>" & _
+              "<tr style=""text-align:center""><th height = ""28""><b></b></th><th></th></tr>" & _
+              "<tr style=""text-align:center""><td><b>Units Shipped</b></td><td>" & num_unit & "</td></tr>" & _
+              "<tr style=""text-align:center""><th><b>Invoice Value</b></th>" & valor_merce & "<th></th></tr>" & _
+              "<tr style=""text-align:center""><td><b>Number Of Boxes</b></td><td>" & num_cart & "</td></tr>" & _
+              "<tr style=""text-align:center""><th><b>Number Of Pallets</b></th><th></th></tr>" & _
+              "<tr style=""text-align:center""><td><b>Authorization Code</b></td><td>" & auth_code & "</td></tr>" & _
+              "<tr style=""text-align:center""><td height = ""28""><b></b></td><td>  </td></tr>" & _
+              "<tr style=""text-align:center""><td><b>Riportare in fattura la dicitura</b></td><td><mark>BU VEN TON</mark></td></tr></table>" & _
+              "<p>Grazie in anticipo</p>" & _
+              "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+
+
+                
+mail_DOCS_OK_REDUX = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Dear Supplier,</p>" & _
+                    "<p>Thank you for your email, it has been received by the Trade & Transport Team - Italy, at The OUTNET.</p>" & _
+                    "<p style = "" margin : 0;"">We will review it and contact you as soon as possible to make arrangements.</p>" & _
+                    "<p style = "" margin : 0;""> We would ask you not to release any shipments until we have authorised them as unauthorised shipments will be refused and returned to sender.</p>" & _
+                    "<p style = "" margin : 0;"">Please don't forget to provide us:<p>" & _
+                    "<ol><li><B>Commercial/Pro Forma Invoice and Packing List in Excel format</B> or the Authorisation Form in attachment </li>" & _
+                    "<li>2. Total number of <b>cartons/pallet</b> including weights and Publicensions, <b>collection address</b>, contact name telephone number and warehouse opening hours</li></ol>" & _
+                    "<p>Attached, please find a copy of our most recently updated <b>Global Shipping Instructions</b>, outlining the full shipping and invoicing processes and the prefilled Excel <b>Authorisation Form</b> to send back completed.</p>" & _
+                    "<p>Kind regards,</p>" & _
+                    "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+
+
+
+
+
+
+
+End Sub
+
+Public Sub assign_values_for_emails()
+Dim check1 As Boolean, check2 As Boolean, check3 As Boolean
+
+Dim i As Integer
+
+' try to define the variables here
+check1 = False
+check2 = False
+check3 = False
+'Debug.Print "check1, check2, check3", check1, check2, check3
+' start with all negative
+If OptionButton11.Value = True Then
+opt_flag = True
+CheckBox2.Visible = False
+ElseIf OptionButton12.Value = True Then
+opt_flag = False
+End If
+
+If CheckBox1.Value = True Then
+    check1 = True
+End If
+
+If CheckBox2.Value = True Then
+    check2 = True
+End If
+
+If CheckBox3.Value = True Then
+    check3 = True
+End If
+
+'Debug.Print "check1, check2, check3", check1, check2, check3
+
+
+
+If Trim(design) Like "ICON TRADE SERVICES" Then
+icon = " SEPA"
+Else
+icon = ""
+End If
+
+
+If opt_flag = True And check1 = True And check3 = True Then
+outside = "WITHIN threshold" & " - " & "minor PRICE/QUANTITY Discrepancy" + icon
+'Debug.Print 1
+End If
+If opt_flag = True And check1 = True And check3 = False Then
+outside = "WITHIN threshold" & " - " & " minor PRICE Discrepancy" + icon
+'Debug.Print 2
+End If
+If opt_flag = True And check1 = False And check3 = True Then
+outside = "WITHIN  threshold" & " - " & "minor QUANTITY Discrepancy" + icon
+'Debug.Print 3
+End If
+
+
+
+If opt_flag = False And check1 = True And check2 = True And check3 = True Then
+outside = "OUTSIDE threshold" & " - " & "PRICE/STYLE/QUANTITY Discrepancy" + icon
+
+End If
+If opt_flag = False And check1 = True And check2 = True And check3 = False Then
+outside = "OUTSIDE threshold" & " - " & "STYLE/PRICE Discrepancy" + icon
+'Debug.Print 12
+End If
+If opt_flag = False And check1 = True And check2 = False And check3 = True Then
+outside = "OUTSIDE threshold" & " - " & "STYLE/QUANTITY Discrepancy" + icon
+'Debug.Print 13
+End If
+If opt_flag = False And check1 = True And check2 = False And check3 = False Then
+outside = "OUTSIDE threshold" & " - " & "PRICE Discrepancy" + icon
+'Debug.Print 14
+End If
+
+
+
+Debug.Print "outside ----->"; outside
+'Debug.Print CStr(opt_flag)
+
+
+End Sub
+
+
+
+
+Private Sub CommandButton4_Click()
+
+'accessing the workbook
+
+Dim wbwareh As Workbook
+Dim wswareh As Worksheet
+Dim lastrow As Long
+Dim g() As String
+Dim j() As Long
+Dim headers As String, full_data As String
+Dim units As String, plts As String, boxes As String
+Dim dated As Date
+Dim i As Long
+Dim n As Variant
+Dim z As Variant
+Dim rn1 As Range
+Dim x As Long
+Dim s As Long
+
+
+
+Application.DisplayAlerts = False
+'setting the workbook
+Set wbwareh = Workbooks.Open("Y:\Operations\LAV_PROD\GEODIS\Programma consegne Gen-18\T&T_arrivi_TON.xlsx", UpdateLinks:=0, ReadOnly:=True, Password:="LOGIT")
+' setting the worksheet
+Set wswareh = wbwareh.Sheets(2)
+'setting the lastrow
+lastrow = wswareh.Cells(Rows.Count, 1).End(xlUp).Row
+' setting range
+wswareh.Select
+Set rn1 = Range(Cells(lastrow - 1, 1), Cells(lastrow - 7, 1))
+' making the two arrays the same leng
+' creating a sort of table
+headers = "date ----------- units ----- colli --- plts "
+TextBox1.Text = headers
+For Each n In rn1
+    n.Select
+    dated = ActiveCell.Value
+    units = ActiveCell.Offset(0, 1)
+    boxes = ActiveCell.Offset(0, 2)
+    plts = ActiveCell.Offset(0, 3)
+    full_data = dated & "     " & units & "     " & boxes & "      " & plts
+    TextBox1.Text = TextBox1.Text + full_data & vbNewLine
+Next n
+
+
+
+
+
+wbwareh.Close
+
+Application.DisplayAlerts = True
+
+End Sub
+
+
+Private Sub CommandButton5_Click()
+Dim case_int As Integer
+Dim myContent As Variant
+Dim c As String
+
+
+
+
+
+
+If OptionButton3.Value = True Then
+myContent = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Dear Supplier,</p>" & _
+                "<p>Thank you for your email, it has been received by the Trade & Transport Team - Italy, at The OUTNET.</p>" & _
+                "<p>We will contact you as soon as possible to make arrangements. Please check you have included the following in your request. Without this information your authorisation code cannot be granted and will cause further delays in approval:</p>" & _
+                "<ol><li>  Total number of cartons including weights and Publicensions</li>" & _
+                "<li>  Collection address, contact name phone number and warehouse opening hours. </li>" & _
+                "<li>    The correct header addresses for the proforma invoice are:</li></ol>" & _
+                "<p>* Bill to address for Italy</p>" & _
+                "<p>Thank you for your email, it has been received by the Trade & Transport Team - Italy, at The OUTNET.</p>" & _
+                "<p>Thank you for your email, it has been received by the Trade & Transport Team - Italy, at The OUTNET.</p>" & _
+                "<p style = ""margin : 0;""><b>YOOX NET-A-PORTER GROUP</b></p>" & _
+                "<p style = ""margin : 0;"">Via Morimondo 17</p>" & _
+                "<p style = ""margin : 0;"">20143 - Milano</p>" & _
+                "<p style = ""margin : 0;"">P.IVA e C.F.: 02050461207</p>" & _
+                "<p>* Ship to address for Italy:</p>" & _
+                "<p style = ""margin : 0;""></b>YNAP S.p.A-THE OUTNET (INTERPORTO)</b></p>" & _
+                "<p style = ""margin : 0;"">c/o Geodis Logistics S.p.A.</p>" & _
+                "<p style = ""margin : 0;"">Blocco 15.2.1 (Loading Dock from 22 to 30)</p>" & _
+                "<p style = ""margin : 0;"">40010 - Interporto, Bentivoglio (BO)</p>" & _
+                "<p style = ""margin : 0;"">ITALY</p>" & _
+                "<p style = ""margin : 0;"">Att.ne Fabio Bonvicini</p>" & _
+                "<ol start= ""4""><li>Packing List and Proforma invoice in Excel format / Authorisation Form</li></ol>" & _
+                "<p>Please, provide us the documentation required, excel format is mandatory. <u> Please note that for any shipment we need a consolidated proforma invoice (multiple proforma invoice will not be accepted).</u></p>" & _
+                "<p>Attached, please find a copy of our most recently updated Global Shipping Instructions, outlining the full shipping and invoicing processes and the prefilled Authorisation Form to send back completed.</p>" & _
+                "<p>We request that you do not to release any shipments until we have authorised them as unauthorised shipments will be refused and returned to sender.</p>" & _
+                "<p>For any further information, please contact your designated Merchandise Operations Coordinator.</p>" & "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+
+ElseIf OptionButton4.Value = True Then
+ myContent = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Dear Supplier,</p>" & _
+                    "<p>Thank you for your email, it has been received by the Trade & Transport Team - Italy, at The OUTNET.</p>" & _
+                    "<p style = "" margin : 0;"">We will review it and contact you as soon as possible to make arrangements.</p>" & _
+                    "<p style = "" margin : 0;""> We would ask you not to release any shipments until we have authorised them as unauthorised shipments will be refused and returned to sender.</p>" & _
+                    "<p>Kind regards,</p>" & _
+                    "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+ElseIf OptionButton5.Value = True Then
+myContent = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Dear Supplier,</p>" & _
+                        "<p>Thank you for your kind reminder.</p>" & _
+                        "<p>You Request is awaiting to be reviewed by our Team. Please bear with us and we will contact you to make arrangements as soon as we can. </p>" & _
+                        "<p>We would ask you not to release any shipments until we have authorised this shipment as unauthorised shipments will be refused and returned to sender.</p>" & _
+                        "<p>Trusting in your patience, we apologise for any inconvenience caused.</p>" & _
+                        "<p>Best regards,</p>" & _
+                        "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+ElseIf OptionButton6.Value = True Then
+myContent = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Dear Supplier,</p>" & _
+                      "<p>We already reviewed your paperwork and we're waiting for our Retail office to update the discrepancy in our system.</p>" & _
+                      "<p>Sorry for the inconvenience and once everything is ok we will authorize your shipment and advise you ASAP.</p>" & _
+                       "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+
+
+
+ElseIf OptionButton7.Value = True Then
+myContent = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Dear Supplier,</p>" & _
+                     "<p>Thank you for your kind reminder.</p>" & _
+                     "<p>Apologies, we are currently experiencing extremely high volumes of shipping requests, so please bear with us and we will contact you to make arrangements as soon as we can.</p>" & _
+                     "<p>Please do not release any shipments until they have been authorized as this will result in further delays, and the goods will be refused upon delivery.</p>" & _
+                     "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+
+ElseIf OptionButton8.Value = True Then
+myContent = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>** vendor removed</p>" & _
+                "<p>Hi Merchops/T&T US,</p>" & _
+              "<p>Our NAV doesn't show this order, is it for PLG?</p>" & _
+                "<p>Could you please double check and inform both, us and vendor, about how to proceed in this case?</p>" & _
+                "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture1.png"" width = ""600""/>"
+End If
+
+
+
+
+
+' StoreOrReturnData myContent
+b = myContent
+
+writeEmail b, c, dep
+
+If OptionButton13.Value = True Then
+create_folder
+Else
+End If
+
+End Sub
+Sub create_folder()
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+'checking getting the values
+Dim wb As Workbook
+' getting the strings
+Dim vendor As String
+Dim designer As String
+Dim depart As String
+Dim incoterms As String
+Dim Po As String
+Dim name As String
+Dim strFolderNamePo As String, name_trimmed As String
+Dim lenght_name As Integer
+
+
+'gettin the correct workbook
+Set wb = ActiveWorkbook
+name = wb.name
+lenght_name = (Len(name) - 5)
+name_trimmed = Left(name, lenght_name) & ".xlsx"
+vendor = Worksheets(1).Cells(7, 2).Value
+designer = Worksheets(3).Cells(3, 7).Value
+depart = Worksheets(10).Cells(5, 2).Value
+incoterms = Worksheets(1).Cells(55, 2).Value
+Po = Worksheets(1).Cells(5, 2).Value
+
+Debug.Print vendor, designer, depart, incoterms, name
+'delete the different sheets where the values have been taken
+wb.Worksheets(10).Delete
+wb.Worksheets(9).Delete
+wb.Worksheets(8).Delete
+wb.Worksheets(7).Delete
+wb.Worksheets(6).Delete
+wb.Worksheets(5).Delete
+wb.Worksheets(4).Delete
+wb.Worksheets(2).Delete
+wb.Worksheets(1).Delete
+
+Dim strFolderName As String
+Dim strFolderExists As String
+
+
+' passing it as string solves the problem, first time ok , second not ok
+
+    strFolderName = "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & Po
+    ' the vbdirectory argument to specify that we are looking for a directory
+    strFolderExists = Dir(strFolderName, vbDirectory)
+ 
+    If strFolderExists = "" Then
+        MsgBox "The selected folder doesn't exist"
+        MkDir strFolderName
+        ' need to add an extra step here as it is saving in the parent folder, using PO as it is a variable already
+        strFolderNamePo = "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & Po & "\"
+        wb.SaveAs strFolderNamePo & name_trimmed, FileFormat:=xlOpenXMLWorkbook 'xlOpenXMLWorkbookMacroEnabled
+        wb.Close
+        
+    Else
+        MsgBox "folder " & Po & " already exists"
+    End If
+
+
+' checking if file exists
+
+'Dim strFileName As String
+'Dim strFileExists As String
+  'assigning the file name t a variable
+'    strFileName = "C:\Users\Nikola\Desktop\VBA articles\Test File Exists.xlsx"
+   ' dir function looks in the vba articles directory
+'    strFileExists = Dir(strFileName)
+ 
+'   If strFileExists = "" Then
+ '       MsgBox "The selected file doesn't exist"
+ '   Else
+'        MsgBox "The selected file exists"
+'    End If
+Call Shell("explorer.exe" & " " & "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & Po & "\", vbNormalFocus)
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+End Sub
+
+' checking if the folder exists
+
+
+
+' checking if the folder exists
+
+
+Private Sub CommandButton6_Click()
+Dim diff As String
+Dim mail_DISCR_obj1 As String
+Dim c As String
+Dim a As String, bb As String
+
+Dim flag As Boolean
+Dim dep_guy As String
+
+'creating the variables for the objs
+
+
+
+
+
+
+
+
+Call assign
+Select Case Trim(dep)
+    Case "BRIDGE POWER BRANDS", "BRIDGE COLLECTIONS", "BRIDGE OCCASION"
+        dep_guy = "daria.gulai@ynap.com"
+    Case "BEACH & RESORT", "DENIM", "KNIT & JERSEY", "ACTIVE & SKI"
+        dep_guy = "avantika.ruia@ynap.com"
+    Case "MFO", "SUPERBRANDS"
+        dep_guy = "olivia.yang@ynap.com"
+    Case "LINGERIE", "CONTEMPORARY COLLECTIONS"
+        dep_guy = "joel.viegas@ynap.com"
+    Case "CONTEMPORARY MW", "DESIGNER MW", "SPORT & LIFESTYLE MW"
+        dep_guy = "luke.cormack@ynap.com"
+    Case "DESIGNER CLASSIC", "DESIGNER OCCASION"
+        dep_guy = "prashanti.patel@ynap.com"
+    Case "DESIGNER COLLECTIONS"
+        dep_guy = "sophia.alonge@ynap.com"
+    Case "ADVANCED CONTEMPORARY"
+        dep_guy = "riin.viigand@ynap.com"
+End Select
+
+
+
+
+
+a = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Hi All,</p>" & _
+            "<p>I hope you are well :)</p>" & _
+            "<p>I am writing to you because after checking the A.R. in object, there are some discrepancy to point out.</p>" & _
+            "<p>Please find the remarks below:</p>" & _
+            "<p><table style = ""width: 30%""><tr><th></th><th>NAVISION</th><th>INVOICE</th></tr><tr style=""text-align:center""><td>Q.TY</td><td></td><td>" & num_unit & "</td></tr><tr><th>TOT. VALUE</th><th></th><th>" & valor_merce & " </th></tr></table></p>" & _
+            "<p><b><mark>As the discrepancies fall beneath the threshold i will authorize the shipment directly</mark></b></p>" & _
+            "<p>Please find enclosed the discrepancy list and the Authorization form.</p>" & _
+            "<p>Thanks  ;</p>" & _
+            "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+bb = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Hi All,</p>" & _
+            "<p>I hope you are well :)</p>" & _
+            "<p>I am writing to you because after checking the A.R. in object, there are some discrepancy to point out.</p>" & _
+            "<p>Please find the remarks below:</p>" & _
+            "<p><table style = ""width: 30%""><tr><th></th><th>NAVISION</th><th>INVOICE</th></tr><tr style=""text-align:center""><td>Q.TY</td><td></td><td>" & num_unit & "</td></tr><tr><th>TOT. VALUE</th><th></th><th>" & valor_merce & " </th></tr></table></p>" & _
+            "<p>I will wait your reply with authorization to go ahead and prepare the shipment.</p>" & _
+            "<p>Please find enclosed the discrepancy list and the Authorization form.</p>" & _
+            "<p>Thanks  ;</p>" & _
+            "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+
+
+
+
+Call assign_values_for_emails
+
+
+
+CheckBox2.Visible = True
+Debug.Print "outside form other function", outside
+
+
+
+
+
+mail_DISCR_obj1 = mail_DISCR_obj + outside
+
+If opt_flag = False Then
+b = bb
+ElseIf opt_flag = True Then
+b = a
+End If
+
+c = mail_DISCR_obj1
+
+Debug.Print "mail obj", c
+writeEmail b, c, dep_guy
+
+'Call GetClipboard
+'Call SetClipboard(StrPtr(b))
+'Call ClipBoard_GetData
+End Sub
+
+Sub writeEmail(ByVal b As String, ByVal c As String, ByVal dep_guy As String)
+ Dim objWord As Object
+ Dim strFolderName As String
+ strFolderName = "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & PO_num
+ Debug.Print strFolderName
+ '   Dim wrd As Object
+'Set wrd = GetObject(, "Word.Application")
+'wrd.documents.Open "C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\New Microsoft Word Document (2).docx"
+
+'wrd.Content.Copy
+
+' Do the pasting operations
+Dim oFSO As Object
+Dim oFolder As Object
+Dim oFile As Object
+Dim i As Integer
+ 
+Set oFSO = CreateObject("Scripting.FileSystemObject")
+Set oFolder = oFSO.GetFolder("Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & PO_num & "\")
+ 
+
+'wrd.Close SaveChanges:=False
+
+Set olApp = New Outlook.Application
+Set olEmail = olApp.CreateItem(olMailItem)
+
+
+With olEmail
+     
+   ' .BodyFormat = olFormatHTML
+    
+    '.HTMLBody = "<H1>first header</H1>"
+'    .HTMLBody = "<H1>first header</H1>"
+    
+    .HTMLBody = b
+    .To = dep_guy & ";TON_INTL_Merch_Ops@net-a-porter.com;backoffice_TON@ynap.com"
+    .cc = "tradetransport_it@ynap.com"
+    .Subject = c
+ '    For Each oFile In oFolder.Files
+     '   .Attachments.Add
+'    Next oFile
+    .Display
+End With
+
+ 
+
+
+End Sub
+Function CopyTextToClipboard(ByVal c As String)
+'will try to use a word document here and copy from there
+    
+  
+    
+   ' Dim wd As word
+   ' Dim obj As New DataObject
+   ' Dim mainData As String
+   ' mainData = ActiveDocument.Content.Text
+   ' obj.SetText mainData
+   ' obj.PutInClipboard
+End Function
+
+
+Private Sub CommandButton7_Click()
+OptionButton3.Value = False
+OptionButton4.Value = False
+OptionButton5.Value = False
+OptionButton6.Value = False
+OptionButton7.Value = False
+OptionButton8.Value = False
+OptionButton13.Value = False
+End Sub
+
+Private Sub CommandButton8_Click()
+Dim wb As Workbook
+Dim Po As String
+Dim strFolderName As String
+Dim strFolderExists As String
+
+Set wb = ActiveWorkbook
+Po = ActiveCell.Value
+
+
+
+
+
+
+' passing it as string solves the problem, first time ok , second not ok
+
+strFolderName = "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & Po
+    ' the vbdirectory argument to specify that we are looking for a directory
+strFolderExists = Dir(strFolderName, vbDirectory)
+
+Debug.Print strFolderName
+If strFolderExists <> "" Then
+    Call Shell("explorer.exe" & " " & "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & Po & "\", vbNormalFocus)
+Else
+    MsgBox "folder doesn't exist"
+End If
+End Sub
+
+Private Sub MultiPage1_Change()
+
+End Sub
+
+Private Sub OptionButton11_Click()
+CheckBox2.Visible = False
+Frame13.Visible = False
+End Sub
+
+Private Sub OptionButton12_Click()
+CheckBox2.Visible = True
+Frame13.Visible = True
+End Sub
+
+
+
+
+
+Private Sub UserForm_Activate()
+UserForm1.Height = 192.5
+UserForm1.Width = 240.5
+End Sub
+
+
