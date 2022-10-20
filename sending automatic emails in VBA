@@ -59,11 +59,6 @@ End Sub
 
 Public Sub email_contents()
 
-
-
-'Set olApp = New Outlook.Application
-'Set olEmail = olApp.CreateItem(olMailItem)
-
 'cretaing the different formats according to the different cases
 mail_DHL = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Hi All,</p>" & _
     "This shipment has been authorised and your Authorisation Code is <b>" & auth_code & "</b>" & _
@@ -107,6 +102,7 @@ mail_GEODIS = "<html><head><style>table, th, td {border: 1px solid black; border
     "<p>We have given the task to <b><font color = ""blue"">Geodis FF Italia spa/Geodis</font></b>, they will be in touch with you to arrange the pickup. </p>" & _
     "<p><b>To ensure you are paid on time please email a copy of the invoice to goodsinvoice_TON@ynap.com </b></p>" & _
     "<img  src = ""C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\Capture.png"" width = ""600""/>"
+    
 'removing blank spaces with inline elements
 
 mail_SDOGANAM = "<html><head><style>table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head><body><p>Buongiorno a tutti,</p>" & _
@@ -456,7 +452,7 @@ Dim strFolderExists As String
     End If
 
 
-' checking if file exists
+' checking if file exists example taken from the web 
 
 'Dim strFileName As String
 'Dim strFileExists As String
@@ -470,16 +466,14 @@ Dim strFolderExists As String
  '   Else
 '        MsgBox "The selected file exists"
 '    End If
+
+
+
+
 Call Shell("explorer.exe" & " " & "Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\" & Po & "\", vbNormalFocus)
 Application.ScreenUpdating = True
 Application.DisplayAlerts = True
 End Sub
-
-' checking if the folder exists
-
-
-
-' checking if the folder exists
 
 
 Private Sub CommandButton6_Click()
@@ -492,11 +486,6 @@ Dim flag As Boolean
 Dim dep_guy As String
 
 'creating the variables for the objs
-
-
-
-
-
 
 
 
@@ -601,7 +590,7 @@ Set oFolder = oFSO.GetFolder("Y:\YNAPFS\Global Operations\T&T\ITA_Interporto\PO\
 Set olApp = New Outlook.Application
 Set olEmail = olApp.CreateItem(olMailItem)
 
-
+'using just some of the funtionalities now 
 With olEmail
      
    ' .BodyFormat = olFormatHTML
@@ -623,18 +612,7 @@ End With
 
 
 End Sub
-Function CopyTextToClipboard(ByVal c As String)
-'will try to use a word document here and copy from there
-    
-  
-    
-   ' Dim wd As word
-   ' Dim obj As New DataObject
-   ' Dim mainData As String
-   ' mainData = ActiveDocument.Content.Text
-   ' obj.SetText mainData
-   ' obj.PutInClipboard
-End Function
+
 
 
 Private Sub CommandButton7_Click()
