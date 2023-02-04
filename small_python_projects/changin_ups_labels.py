@@ -10,7 +10,7 @@ import os
 from PyPDF2 import PdfMerger
 
 
-directory = r'C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\trial_folder_to_delete'
+directory = r'C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\projects\random_python_projects\trial_folder'
 
 #total_files = (len([filename for filename in os.scandir(directory) if filename.is_file() and "destination" not in filename.path]))
 all_paths = [filename.path for filename in os.scandir(directory) if filename.is_file() and "destination" not in filename.path]
