@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 
 
+
 root=Tk()
 frame_first_label = Frame()
 frame_second_label = Frame()
@@ -9,7 +10,7 @@ frame_second_label = Frame()
 
 
 input_box=Text(padx=15)
-output_box=Text(padx=15)
+output_box=Text(padx=15, width=40)
 
 #creating the two labels 
 label_input = Label(frame_first_label, text="insert the urls of the songs to download" , font=("Arial", 16), fg="black")
@@ -24,3 +25,16 @@ label_output .grid(row=0, column=1)
 input_box.grid(row=1, column=0) 
 output_box.grid(row=1, column=1)
 root.mainloop()
+
+
+
+
+input_str = "https://www.youtube.com/watch?v=1kmkmNVuaXA&ab_channel=Enigmatichttps://www.youtube.com/watch?v=4PUHBL1vMNY&ab_channel=HALIDONMUSIC"
+def split_input(input_str):
+    result=input_str.split("https")
+    updated_result = ["https"+i for i in result if len(i)>5]
+    print(updated_result)
+
+
+split_input(input_str)
+#adding a function taht splits all the text on the "https" pattern
