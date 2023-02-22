@@ -8,6 +8,15 @@ from tkinter import messagebox
 #getting the desktop path 
 
 
+
+root=Tk()
+input_box=Text(padx=15)
+output_box=Text(padx=15)
+
+
+
+
+
 def check_if_folder():
     if not os.path.exists(os.path.join(desktop_path, download_folder)):
         os.makedirs(os.path.join(desktop_path, download_folder))
@@ -34,7 +43,7 @@ download_folder = "downloaded_videos"
 
 
 #getting the input 
-link_list = ["https://www.youtube.com/watch?v=G7KNmW9a75Y&ab_channel=MileyCyrusVEVO",
+link_list = ["",
              "",
              ""]
 
@@ -61,7 +70,7 @@ filtering =  [filename.path for filename in os.scandir(directory) if ".mp4" in f
 [os.remove(i) for i in filtering]
 
 
-'''
+
 
 
 # Load the MP4 file
@@ -69,4 +78,3 @@ clip = VideoFileClip("input.mp4")
 
 # Convert the MP4 file to MP3 format
 
-'''
