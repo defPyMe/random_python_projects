@@ -29,12 +29,20 @@ root.mainloop()
 
 
 
-input_str = "https://www.youtube.com/watch?v=1kmkmNVuaXA&ab_channel=Enigmatichttps://www.youtube.com/watch?v=4PUHBL1vMNY&ab_channel=HALIDONMUSIC"
+#get the text in the text areas 
+all_input = input_box.get("1.0", "end").strip().split()
+
+
+
+
+
+
+#input_str = "https://www.youtube.com/watch?v=1kmkmNVuaXA&ab_channel=Enigmatichttps://www.youtube.com/watch?v=4PUHBL1vMNY&ab_channel=HALIDONMUSIC"
 def split_input(input_str):
     result=input_str.split("https")
     updated_result = ["https"+i for i in result if len(i)>5]
-    print(updated_result)
+    return updated_result
 
 
-split_input(input_str)
+split_input(all_input)
 #adding a function taht splits all the text on the "https" pattern

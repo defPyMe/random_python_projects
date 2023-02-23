@@ -43,9 +43,8 @@ download_folder = "downloaded_videos"
 
 
 #getting the input 
-link_list = ["",
-             "",
-             ""]
+link_list = [
+]
 
 
 for link in link_list:
@@ -58,12 +57,19 @@ directory = r"C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\tem
 # that directory
 for filename in os.scandir(directory):
     if filename.is_file():
-        print("filename", filename.path)
-        clip = VideoFileClip(filename.path)
-        clip.audio.write_audiofile(r"C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\temp files\downloaded_files\ " + filename.name[:-4] + ".mp3")
+        try:
+            print("filename", filename.path)
+            #transforms the file 
+            clip = VideoFileClip(filename.path)
+            #writes the corrected file
+            clip.audio.write_audiofile(r"C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\temp files\downloaded_files\ " + filename.name[:-4] + ".mp3")
         #cleaning out mp4 file
-        clip.close()
-        
+            clip.close()
+            output_box.insert("end", filename.name  + "downloaded correctly" + '\n')
+        except:
+            print("error occurred")
+            output_box.insert("end", filename.name  + " not downloaded" + '\n')
+            next 
 
 
 filtering =  [filename.path for filename in os.scandir(directory) if ".mp4" in filename.path]
@@ -73,8 +79,4 @@ filtering =  [filename.path for filename in os.scandir(directory) if ".mp4" in f
 
 
 
-# Load the MP4 file
-clip = VideoFileClip("input.mp4")
-
-# Convert the MP4 file to MP3 format
 
