@@ -6,6 +6,7 @@ from tkinter import messagebox
 root=Tk()
 frame_first_label = Frame()
 frame_second_label = Frame()
+frame_buttons = Frame()
 
 
 
@@ -18,31 +19,33 @@ label_output = Label(frame_second_label, text="download output", font=("Arial", 
 frame_first_label.grid(row=0, column=0)
 frame_second_label.grid(row=0, column=1)
 
+# button
+try_download = Button(frame_buttons, text="start download", command="")
+check_folder = Button(frame_buttons, text="check download folder", command="")
+#gridding the butons
 
+try_download.grid(row=0, column=0,  pady = 15, padx=6)
+check_folder.grid(row=0, column=1,  pady = 15 , padx=6)
 #gridding the two labels 
 label_input .grid(row=0, column=0)
 label_output .grid(row=0, column=1)
 input_box.grid(row=1, column=0) 
 output_box.grid(row=1, column=1)
+frame_buttons.grid(row=2, column=1, columnspan=2)
+
+
+
+
+
+
 root.mainloop()
 
 
 
 
 #get the text in the text areas 
-all_input = input_box.get("1.0", "end").strip().split()
 
 
 
 
-
-
-#input_str = "https://www.youtube.com/watch?v=1kmkmNVuaXA&ab_channel=Enigmatichttps://www.youtube.com/watch?v=4PUHBL1vMNY&ab_channel=HALIDONMUSIC"
-def split_input(input_str):
-    result=input_str.split("https")
-    updated_result = ["https"+i for i in result if len(i)>5]
-    return updated_result
-
-
-split_input(all_input)
 #adding a function taht splits all the text on the "https" pattern
