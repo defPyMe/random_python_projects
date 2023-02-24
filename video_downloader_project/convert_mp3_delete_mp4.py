@@ -10,9 +10,9 @@ def delete_useless_files():
     [os.remove(i) for i in filtering]
     
     
-def search_and_convert():
+def search_and_convert(directory):
     for filename in os.scandir(directory):
-        if filename.is_file():
+        if filename.is_file() and ".mp4" in filename:
             try:
                 #print("filename", filename.path)
             #transforms the file 
@@ -21,8 +21,10 @@ def search_and_convert():
                 clip.audio.write_audiofile(os.path.join(desktop_path, download_folder) + filename.name[:-4] + ".mp3")
         #cleaning out mp4 file
                 clip.close()
-                #need to rethink the lists here 
-                output_box.insert("end", filename.name  + "downloaded correctly" + '\n')
+                #removing the file using filename -path should be there
+                os.remove(filename)
+                #need to rethink the lists here, with the index taken into consideration to change the mput boxes 
+                update_download_convert("Converted", filename)
             except:
                 print("error occurred")
                 output_box.insert("end", filename.name  + " not downloaded" + '\n')
