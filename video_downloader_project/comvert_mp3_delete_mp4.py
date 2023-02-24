@@ -1,6 +1,7 @@
 from interface import * 
 from pytube import YouTube
 from moviepy.editor import *
+from all_variables_path import *
 
 
 
@@ -13,13 +14,14 @@ def search_and_convert():
     for filename in os.scandir(directory):
         if filename.is_file():
             try:
-                print("filename", filename.path)
+                #print("filename", filename.path)
             #transforms the file 
                 clip = VideoFileClip(filename.path)
             #writes the corrected file
-                clip.audio.write_audiofile(r"C:\Users\cavazzinil\OneDrive - YOOX NET-A-PORTER GROUP\Desktop\temp files\downloaded_files\ " + filename.name[:-4] + ".mp3")
+                clip.audio.write_audiofile(os.path.join(desktop_path, download_folder) + filename.name[:-4] + ".mp3")
         #cleaning out mp4 file
                 clip.close()
+                #need to rethink the lists here 
                 output_box.insert("end", filename.name  + "downloaded correctly" + '\n')
             except:
                 print("error occurred")
