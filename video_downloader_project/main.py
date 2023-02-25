@@ -1,9 +1,11 @@
-from interface import create_interface, get_input, split_input
+from interface import *
 from fetching_input_list import split_input
+from all_variables_path import set_desktop
 
 
 if __name__ == "__main__": 
     create_interface()
-    split_input(get_input())
+    set_desktop()
+    
     
 
