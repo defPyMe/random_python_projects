@@ -2,12 +2,12 @@ from interface import *
 from pytube import YouTube
 from moviepy.editor import *
 from all_variables_path import *
+from updating_the_boxes import *
 
 
-
-def delete_useless_files():
-    filtering =  [filename.path for filename in os.scandir(directory) if ".mp4" in filename.path]
-    [os.remove(i) for i in filtering]
+#def delete_useless_files():
+#    filtering =  [filename.path for filename in os.scandir(directory) if ".mp4" in filename.path]
+#    [os.remove(i) for i in filtering]
     
     
 def search_and_convert(directory):
@@ -26,6 +26,5 @@ def search_and_convert(directory):
                 #need to rethink the lists here, with the index taken into consideration to change the mput boxes 
                 update_download_convert("Converted", filename)
             except:
-                print("error occurred")
-                output_box.insert("end", filename.name  + " not downloaded" + '\n')
+                messagebox("some error occurred while converting")
                 next 

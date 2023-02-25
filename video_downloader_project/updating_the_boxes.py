@@ -1,6 +1,6 @@
 from interface import *
 from fetching_input_list import *
-from clicking_command import *
+from clicking_command import click
 
 #requires output 
 def update_download_convert(string, filename):

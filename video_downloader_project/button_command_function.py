@@ -1,8 +1,8 @@
 #most likely all imports here
 from fetching_input_list import *
-from interface import *
 from download_mp4 import *
-
+from updating_the_boxes import *
+from interface import *
 
 #tuple result has as first argument the list of ourls and as second its lenght
 from checking_download_folder_existence import *
@@ -12,7 +12,7 @@ from checking_download_folder_existence import *
 
 
 
-def click():
+def click_f():
     tuple_result = split_input(all_input)
     conversion_list = tuple_result[0]
     #inserting the first lists now
@@ -29,8 +29,8 @@ def click():
                     conversion_list.remove(link)
                     update_download_convert("Downloaded", link)  
                 else: next
-    #modifying the second list to add downloaded and converted
-            
+    #i should have the list all converted now
+        
     
                     
                 
