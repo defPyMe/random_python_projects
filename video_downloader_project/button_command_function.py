@@ -2,7 +2,7 @@
 from fetching_input_list import *
 from download_mp4 import *
 from updating_the_boxes import *
-from interface import *
+from interface import * 
 
 #tuple result has as first argument the list of ourls and as second its lenght
 from checking_download_folder_existence import *
