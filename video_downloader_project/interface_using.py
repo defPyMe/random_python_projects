@@ -69,8 +69,9 @@ def initialize_interface():
     return None 
     
 #needs to be returned the frame, needs to be returned above   
-def create_button(frame_buttons):
-    try_download = Button(frame_buttons, text="start download", command= lambda: click())#same arguments here as before
+#need to be passed here as well
+def create_button(frame_buttons, a, b, c, d, e):
+    try_download = Button(frame_buttons, text="start download", command =lambda : click(a, b, c, d, e))#same arguments here as before
     check_folder = Button(frame_buttons, text="check download folder", command="")
     try_download.grid(row=0, column=1,  pady = 15, padx=6)
     check_folder.grid(row=0, column=2,  pady = 15 , padx=6)
