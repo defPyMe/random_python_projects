@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 import os
 from moviepy.editor import *
-from all_variables_path import click
+from all_variables_path_using import click
 
 root=Tk()
 
@@ -32,14 +32,11 @@ def interface():
             frame_second_label.grid(row=0, column=1)
         
             # button
-            try_download = Button(frame_buttons, text="start download", command=click)
-            check_folder = Button(frame_buttons, text="check download folder", command="")
-
+           
 
             #gridding the butons
             label_conversion.grid(row=0, column=0,  pady = 15, padx=6)
-            try_download.grid(row=0, column=1,  pady = 15, padx=6)
-            check_folder.grid(row=0, column=2,  pady = 15 , padx=6)
+
 
 
             #gridding the two labels 
@@ -52,6 +49,7 @@ def interface():
             frame_buttons.grid(row=2, column=1, columnspan=2)
             
             all_widgets = root.winfo_children()
+            all_widget_in_label_frame =  frame_label_output.winfo_children()
             
 
         
@@ -61,12 +59,22 @@ def interface():
                     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     print(e, exc_type, fname, exc_tb.tb_lineno)
                     messagebox.showinfo(message=str(e)+ "/n" + str(exc_type)+ "/n" + str(fname)+ "/n" + str(exc_tb.tb_lineno)+ "/n")
-    return all_widgets
+                    
+    #returning them both in a tuple  
+    return all_widgets, all_widget_in_label_frame
 
 def initialize_interface():
     root.resizable(False, False)
     root.mainloop()
-
+    return None 
+    
+#needs to be returned the frame, needs to be returned above   
+def create_button(frame_buttons):
+    try_download = Button(frame_buttons, text="start download", command= lambda: click())#same arguments here as before
+    check_folder = Button(frame_buttons, text="check download folder", command="")
+    try_download.grid(row=0, column=1,  pady = 15, padx=6)
+    check_folder.grid(row=0, column=2,  pady = 15 , padx=6)
+    return None 
 #get the text in the text areas 
 
 

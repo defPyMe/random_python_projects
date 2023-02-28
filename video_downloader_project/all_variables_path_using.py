@@ -1,19 +1,21 @@
 import os
+from tkinter import messagebox
+from pytube import YouTube
+from moviepy.editor import *
+
 def set_desktop():
             desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
             download_folder = "downloaded_videos"   
             full_path = os.path.join(desktop_path, download_folder)
             return desktop_path, download_folder
         
-out = set_desktop()
 
-def update_download_convert(string, filename, output_b, output_box):
-            index = output_b.index(filename)
-            output_b[index] = filename + string
-            [output_box.insert("end", i + "\n") for i in output_b]
+
             
             #takes the desktop path and folder name 
+# needs to set the indexing in the tuple 
 def click():
+            paths_folder_desktop = set_desktop()
             all_input = input_box.get("1.0", "end")
             result=all_input.split("https")
             updated_result = ["https"+i for i in result if len(i)>5]
