@@ -48,7 +48,7 @@ def click(a, b, c, d, e):
                 e.delete('1.0', tk.END)
                 #updating the text boxes with the values split as it is a list
                 #changed here the way it is displayed by changing the input, is this the same a before with on e on a line 
-                input_b =  [i for i in updated_result]
+                input_b =  [a.insert("end", i + '\n') for i in updated_result]
                 output_b = [i for i in updated_result]
                     
                 # should be working up until now 
