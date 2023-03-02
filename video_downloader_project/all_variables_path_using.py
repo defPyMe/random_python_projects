@@ -21,7 +21,7 @@ def click(a, b, c, d, e):
                     all_input = a.get("1.0", "end")
                     result=all_input.split("https")
                     #adding som eminus two here as maybe this is getting in the way 
-                    updated_result = ["https"+i[:-2] for i in result if len(i)>5]
+                    updated_result = ["https"+i for i in result if len(i)>5]
                     link_list_len = len( updated_result)
                     b.config(text="convertion output" + "/n" + "videos links detected :" + str(link_list_len))
                     if not os.path.exists(full_path):
@@ -29,6 +29,7 @@ def click(a, b, c, d, e):
                         messagebox.showinfo("folder info", "download folder created")
                     
                     else:
+                        messagebox.showinfo("folder info", "download folder already created created")
                         try:
                             pass
                         except Exception as e:
@@ -46,11 +47,12 @@ def click(a, b, c, d, e):
                 a.delete('1.0', tk.END)
                 e.delete('1.0', tk.END)
                 #updating the text boxes with the values split as it is a list
-                input_b = [a.insert("end", i + "\n") for i in updated_result]
+                #changed here the way it is displayed by changing the input, is this the same a before with on e on a line 
+                input_b =  [i for i in updated_result]
                 output_b = [i for i in updated_result]
                     
                 # should be working up until now 
-                print("output_b, updated_result --------------->", output_b, updated_result)
+                
                 
                 
                 
@@ -61,15 +63,25 @@ def click(a, b, c, d, e):
                 #looping through the list of the files
                 try:
                     for link in updated_result:
+                        #trying to see if the problem is the added two letters at the end 
+                        index_in_updated = updated_result.index(link)
+                        print("index in updated", index_in_updated)
+                        if index_in_updated ==0:
+                            print("link in first option", link)
                         #need to fix this as we get no 
-                        download_trial = Download(link[:-2],(full_path + "\\"))
-                        
-                        if  download_trial:
-                            #pop seems to be working now, but should be added in the function
-                            index_in_list = updated_result.index(link)
-                            updated_result.pop(index_in_list)
-                            update_download_convert("-- Downloaded", link, output_b, e)  
-                        else: next
+                            download_trial = Download(link,(full_path + "\\"))
+                            
+                        else:
+                            print("link in second option", link)
+                            download_trial = Download(link[:-2],(full_path + "\\"))
+
+                    if  download_trial:
+                        print("lenght of list", len( updated_result))
+                                #pop seems to be working now, but should be added in the function
+                        index_in_list = updated_result.index(link)
+                        updated_result.pop(index_in_list)
+                        print("updated result after delete", updated_result)
+                    else: next
         #i should have the list all converted now
                 except Exception as e:
                             exc_type, exc_obj, exc_tb = sys.exc_info()
