@@ -24,6 +24,7 @@ def click(a, b, c, d, e):
                     updated_result = ["https"+i for i in result if len(i)>5]
                     link_list_len = len( updated_result)
                     b.config(text="convertion output" + "/n" + "videos links detected :" + str(link_list_len))
+                    print("convertion output" + "/n" + "videos links detected :" + str(link_list_len))
                     if not os.path.exists(full_path):
                         os.makedirs(full_path)
                         messagebox.showinfo("folder info", "download folder created")
@@ -50,6 +51,7 @@ def click(a, b, c, d, e):
                 #changed here the way it is displayed by changing the input, is this the same a before with on e on a line 
                 input_b =  [a.insert("end", i + '\n') for i in updated_result]
                 output_b = [i for i in updated_result]
+                print("input_b, ", input_b, "output_p", output_b)
                     
                 # should be working up until now 
                 
@@ -144,7 +146,7 @@ def checking_if_mp4_left(directory):
         
         
 def Download(link, path):
-            youtubeObject = YouTube(link)
+            youtubeObject = YouTube(link, use_oauth=True, allow_oauth_cache=True )
             youtubeObject = youtubeObject.streams.get_highest_resolution()
             try:
                 youtubeObject.download(os.path.join(path))
